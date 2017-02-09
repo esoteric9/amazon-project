@@ -57,7 +57,10 @@ public class DataHelper {
 			throws ClassNotFoundException, SQLException {
 		Object[][] myData;
 		ArrayList<Object> myArrayData = new ArrayList<Object>();
+		// this throws an exception when you do not have the proper dependency
+		// in your pom
 		Class.forName(driverClassString);
+		// Create connection to database
 		Connection dbconn = DriverManager.getConnection(databaseStringUrl, username, password);
 		Statement stmt = dbconn.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from " + tableName);
