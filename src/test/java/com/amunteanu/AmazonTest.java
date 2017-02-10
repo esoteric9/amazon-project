@@ -18,14 +18,14 @@ public class AmazonTest extends BasicTest {
 		super("https://www.amazon.com");
 	}
 
-	@Test(dataProvider = "dp")
-	public void f(String id, String product, String quantity, String total_price) {
+	@Test(dataProvider = "excel2003")
+	public void testAmazon(double id, String product, double quantity, double total_price) {
 		super.getDriver().findElement(By.id("twotabsearchtextbox")).clear();
 		super.getDriver().findElement(By.id("twotabsearchtextbox")).sendKeys(product);
 		super.getDriver().findElement(By.cssSelector(".nav-search-submit input")).click();
 		super.getDriver().findElement(By.cssSelector("#result_0 h2")).click();
 		Select select = new Select(this.getDriver().findElement(By.id("quantity")));
-		select.selectByValue(quantity);
+		select.selectByValue(Integer.toString(((int) quantity)));
 		super.getDriver().findElement(By.id("add-to-cart-button")).click();
 		Assert.assertEquals(
 				this.getDriver().findElement(By.xpath(".//*[@id='hlb-subcart']/div[1]/span/span[2]")).getText(),
@@ -33,8 +33,18 @@ public class AmazonTest extends BasicTest {
 	}
 
 	@DataProvider
-	public Object[][] dp() throws ClassNotFoundException, SQLException {
+	public Object[][] dbData() throws ClassNotFoundException, SQLException {
 		return DataHelper.evalDatabaseTable("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:8889/amazondb", "root",
 				"root", "products");
+	}
+
+	@DataProvider
+	public Object[][] excel2003() throws InvalidExcelExtensionException {
+		return DataHelper.getExcelFileData("src/main/resources/", "products.xls", false);
+	}
+
+	@DataProvider
+	public Object[][] excelNew() throws InvalidExcelExtensionException {
+		return DataHelper.getExcelFileData("src/main/resources/", "products.xlsx", false);
 	}
 }

@@ -7,8 +7,14 @@
  */
 package com.amunteanu.helpers;
 
+import java.io.*;
 import java.sql.*;
 import java.util.*;
+
+import org.apache.log4j.*;
+import org.apache.poi.hssf.usermodel.*;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.*;
 
 /**
  * DataHelper //ADDD (description of class)
@@ -28,6 +34,12 @@ public class DataHelper {
 	public DataHelper(Object[][] data) {
 		super();
 		this.data = data;
+	}
+
+	private static Logger logger = Logger.getLogger(DataHelper.class);
+
+	public static Logger getLogger() {
+		return logger;
 	}
 
 	// Static method
@@ -84,5 +96,116 @@ public class DataHelper {
 		stmt.close();
 		dbconn.close();
 		return myData;
+	}
+
+	public static Object[][] getExcelFileData(String fileLocation, String fileName, Boolean hasLabels)
+			throws InvalidExcelExtensionException {
+		Object[][] resultsObject;
+		String[] fileNameParts = fileName.split("[.]");
+		String extension = fileNameParts[fileNameParts.length - 1];
+		ArrayList<Object> results = null;
+		if (extension.equalsIgnoreCase("xlsx")) {
+			results = getNewExcelFileResults(fileLocation, fileName, hasLabels);
+		} else if (extension.equalsIgnoreCase("xls")) {
+			results = getOldExcelFileResults(fileLocation, fileName, hasLabels);
+		} else {
+			throw new InvalidExcelExtensionException();
+		}
+		resultsObject = new Object[results.size()][];
+		results.toArray(resultsObject);
+		return resultsObject;
+	}
+
+	@SuppressWarnings("deprecation")
+	private static ArrayList<Object> getNewExcelFileResults(String fileLocation, String fileName, Boolean hasLabels) {
+		ArrayList<Object> results = new ArrayList<Object>();
+		try {
+			String fullFilePath = fileLocation + fileName;
+			InputStream newExcelFormatFile = new FileInputStream(new File(fullFilePath));
+			XSSFWorkbook workbook = new XSSFWorkbook(newExcelFormatFile);
+			XSSFSheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.iterator();
+			if (hasLabels) {
+				rowIterator.next();
+			}
+			while (rowIterator.hasNext()) {
+				ArrayList<Object> rowData = new ArrayList<Object>();
+				Row row = rowIterator.next();
+				Iterator<Cell> cellIterator = row.cellIterator();
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_BOOLEAN:
+						System.out.print(cell.getBooleanCellValue() + "\t\t\t");
+						rowData.add(cell.getBooleanCellValue());
+						break;
+					case Cell.CELL_TYPE_NUMERIC:
+						System.out.print(cell.getNumericCellValue() + "\t\t\t");
+						rowData.add(cell.getNumericCellValue());
+						break;
+					case Cell.CELL_TYPE_STRING:
+						System.out.print(cell.getStringCellValue() + "\t\t\t");
+						rowData.add(cell.getStringCellValue());
+						break;
+					}
+				}
+				Object[] rowDataObject = new Object[rowData.size()];
+				rowData.toArray(rowDataObject);
+				results.add(rowDataObject);
+				System.out.println("");
+			}
+			newExcelFormatFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return results;
+	}
+
+	private static ArrayList<Object> getOldExcelFileResults(String fileLocation, String fileName, Boolean hasLabels) {
+		ArrayList<Object> results = new ArrayList<Object>();
+		try {
+			String fullFilePath = fileLocation + fileName;
+			InputStream newExcelFormatFile = new FileInputStream(new File(fullFilePath));
+			HSSFWorkbook workbook = new HSSFWorkbook(newExcelFormatFile);
+			HSSFSheet sheet = workbook.getSheetAt(0);
+			Iterator<Row> rowIterator = sheet.iterator();
+			if (hasLabels) {
+				rowIterator.next();
+			}
+			while (rowIterator.hasNext()) {
+				ArrayList<Object> rowData = new ArrayList<Object>();
+				Row row = rowIterator.next();
+				Iterator<Cell> cellIterator = row.cellIterator();
+				while (cellIterator.hasNext()) {
+					Cell cell = cellIterator.next();
+					switch (cell.getCellType()) {
+					case Cell.CELL_TYPE_BOOLEAN:
+						System.out.print(cell.getBooleanCellValue() + "\t\t\t");
+						rowData.add(cell.getBooleanCellValue());
+						break;
+					case Cell.CELL_TYPE_NUMERIC:
+						System.out.print(cell.getNumericCellValue() + "\t\t\t");
+						rowData.add(cell.getNumericCellValue());
+						break;
+					case Cell.CELL_TYPE_STRING:
+						System.out.print(cell.getStringCellValue() + "\t\t\t");
+						rowData.add(cell.getStringCellValue());
+						break;
+					}
+				}
+				Object[] rowDataObject = new Object[rowData.size()];
+				rowData.toArray(rowDataObject);
+				results.add(rowDataObject);
+				System.out.println("");
+			}
+			newExcelFormatFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return results;
 	}
 }

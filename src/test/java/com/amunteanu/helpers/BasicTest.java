@@ -40,14 +40,14 @@ public class BasicTest {
 		return this.log;
 	}
 
-	@BeforeMethod()
+	@BeforeMethod(enabled = false)
 	public void setupFirefox() {
 		this.driver = new FirefoxDriver();
 		this.driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 		this.driver.get(this.baseURL);
 	}
 
-	@BeforeMethod(enabled = false)
+	@BeforeMethod()
 	public void setupChrome() {
 		System.setProperty("webdriver.chrome.driver", "drivers/chromedriver.exe");
 		this.driver = new ChromeDriver();
