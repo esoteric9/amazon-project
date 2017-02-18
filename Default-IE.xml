@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Default suite">
+     <test verbose="2" name="Default-IE">
+           <groups>
+                <run>
+                      <exclude name="safari"></exclude>
+                      <exclude name="firefox"></exclude>
+                      <exclude name="chrome"></exclude>
+                      <exclude name="opera"></exclude>
+                </run>
+           </groups>
+           <packages>
+                <package name="com.amunteanu.ws"></package>
+           </packages>
+     </test>
+</suite>

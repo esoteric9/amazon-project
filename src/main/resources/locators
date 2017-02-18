@@ -1,0 +1,7 @@
+#Properties Added
+#Sat Feb 11 17:56:03 PST 2017
+top_result=\#result_0 h2
+add_to_cart_btn=add-to-cart-button
+search=twotabsearchtextbox
+total_price=.//*[@id\='hlb-subcart']/div[1]/span/span[2]
+search_btn=.nav-search-submit input

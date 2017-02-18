@@ -18,7 +18,7 @@ public class AmazonTest extends BasicTest {
 		super("https://www.amazon.com");
 	}
 
-	@Test(dataProvider = "excel2003")
+	@Test(dataProvider = "csvData")
 	public void testAmazon(double id, String product, double quantity, double total_price) {
 		super.getDriver().findElement(By.id("twotabsearchtextbox")).clear();
 		super.getDriver().findElement(By.id("twotabsearchtextbox")).sendKeys(product);
@@ -33,9 +33,11 @@ public class AmazonTest extends BasicTest {
 	}
 
 	@DataProvider
-	public Object[][] dbData() throws ClassNotFoundException, SQLException {
+	public Object[][] dbData() throws ClassNotFoundException, SQLException, DataTypesMismatchException,
+			DataTypesCountException, DataTypesTypeException {
 		return DataHelper.evalDatabaseTable("com.mysql.jdbc.Driver", "jdbc:mysql://localhost:8889/amazondb", "root",
-				"root", "products");
+				"root", "products", 0, 0,
+				new DataType[] { DataType.DOUBLE, DataType.STRING, DataType.DOUBLE, DataType.DOUBLE });
 	}
 
 	@DataProvider
@@ -46,5 +48,12 @@ public class AmazonTest extends BasicTest {
 	@DataProvider
 	public Object[][] excelNew() throws InvalidExcelExtensionException {
 		return DataHelper.getExcelFileData("src/main/resources/", "products.xlsx", false);
+	}
+
+	@DataProvider
+	public Object[][] csvData() throws InvalidExcelExtensionException {
+		Object[][] data = DataHelper.getTextFileData("src/main/resources/", "products.csv", TextFormat.CSV,
+				new DataType[] { DataType.DOUBLE, DataType.STRING, DataType.DOUBLE, DataType.DOUBLE });
+		return data;
 	}
 }
