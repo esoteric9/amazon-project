@@ -8,7 +8,7 @@
  *   
  */
 
-package com.amunteanu.helpers;
+package com.amunteanu.helpers.exceptions;
 
 
 /**
