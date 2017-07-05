@@ -8,6 +8,10 @@ import org.testng.*;
 import org.testng.annotations.*;
 
 import com.amunteanu.helpers.*;
+import com.amunteanu.helpers.exceptions.DataTypesCountException;
+import com.amunteanu.helpers.exceptions.DataTypesMismatchException;
+import com.amunteanu.helpers.exceptions.DataTypesTypeException;
+import com.amunteanu.helpers.exceptions.InvalidExcelExtensionException;
 
 public class AmazonTest extends BasicTest {
 

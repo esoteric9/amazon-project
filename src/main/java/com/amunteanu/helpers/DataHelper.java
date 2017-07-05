@@ -17,6 +17,13 @@ import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
+import com.amunteanu.helpers.exceptions.BooleanFormatException;
+import com.amunteanu.helpers.exceptions.CharacterCountFormatException;
+import com.amunteanu.helpers.exceptions.DataTypesCountException;
+import com.amunteanu.helpers.exceptions.DataTypesMismatchException;
+import com.amunteanu.helpers.exceptions.DataTypesTypeException;
+import com.amunteanu.helpers.exceptions.InvalidExcelExtensionException;
+
 /**
  * DataHelper //ADDD (description of class)
  * <p>
