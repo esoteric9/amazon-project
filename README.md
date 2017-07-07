@@ -1,14 +1,15 @@
 # Amazon Project
 
-*Practicing with data-driven testing using a database*
+### Practicing data-driven testing using a database
 
-_Java 7_
-
+Using:
+* Java 7
 * Maven
 * Log4j
 * TestNG
 * MAMP
+* Eclipse Neon
 
 Java Project for SQA Boot Camp Program.
 
-[Alex Munteanu]
+Author: [Alex Munteanu](amunteanu88@gmail.com)
