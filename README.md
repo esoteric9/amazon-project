@@ -3,7 +3,8 @@
 ### Practicing data-driven testing using a database
 
 Using:
-* Java 7
+* Java 8
+* Selenium 2
 * Maven
 * Log4j
 * TestNG
